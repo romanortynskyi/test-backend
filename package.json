@@ -6,13 +6,13 @@
   "private": true,
   "license": "UNLICENSED",
   "engines": {
-    "npm": ">=9.0.0 <10.0.0",
-    "node": ">=18.0.0 <19.0.0"
+    "npm": "9.3.1",
+    "node": "18.14.0"
   },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "npm install && npm run build && node dist/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "deploy": "npm install && npm run build && npm run start",
