@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repo
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Install Node 18
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name : Npm Install
+        run: npm install
+
+      - name: Prettier
+        run: npm run format
+        
+      - name : Lint
+        run : npm run lint
