@@ -12,6 +12,8 @@ phases:
   build:
     commands:
       - echo Building the Docker image...
+      - sudo service --status-all 
+      - sudo service docker start
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
 
