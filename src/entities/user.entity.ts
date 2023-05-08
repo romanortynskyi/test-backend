@@ -1,9 +1,6 @@
 import {
   Column,
   Entity,
-  JoinColumn,
-  OneToMany,
-  OneToOne,
 } from 'typeorm'
 
 import { BaseEntity } from './base.entity'
