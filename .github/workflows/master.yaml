@@ -55,6 +55,8 @@ jobs:
     needs: migrate-db
     runs-on: ubuntu-latest
     steps:
+      - name: Install Dependencies
+        run: npm install
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
