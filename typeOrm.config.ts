@@ -13,11 +13,11 @@ const configService = new ConfigService()
  
 export default new DataSource({
   type: 'postgres',
-  host: configService.get('POSTGRES_HOST'),
-  port: configService.get('POSTGRES_PORT'),
-  username: configService.get('POSTGRES_USER'),
-  password: configService.get('POSTGRES_PASSWORD'),
-  database: configService.get('POSTGRES_DATABASE'),
+  host: configService.get('DATABASE_HOST'),
+  port: configService.get('DATABASE_PORT'),
+  username: configService.get('DATABASE_USER'),
+  password: configService.get('DATABASE_PASSWORD'),
+  database: configService.get('DATABASE_NAME'),
   entities: [UserEntity],
   migrations: [CreateUser1683525459189]
 })
