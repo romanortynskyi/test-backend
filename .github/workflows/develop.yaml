@@ -53,27 +53,3 @@ jobs:
             DATABASE_USER: ${{ secrets.DATABASE_USER }}
             DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
             DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-  deploy:
-    needs: migrate-db
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout the repo
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      # Install Node 18
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      
-      - name: Deploy to Elastic Beanstalk
-        uses: einaregilsson/beanstalk-deploy@v21
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          application_name: test-backend
-          environment_name: Test-backend-env
-          version_label: 12345
-          region: us-east-1
