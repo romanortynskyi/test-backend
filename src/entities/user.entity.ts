@@ -1,30 +1,31 @@
-import {
-  Column,
-  Entity,
-} from 'typeorm'
+import { Column, Entity, OneToMany } from 'typeorm';
 
-import { BaseEntity } from './base.entity'
+import { BaseEntity } from './base.entity';
+import { CashflowEntity } from './cashflow.entity';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
   @Column()
-  firstName: string
+  firstName: string;
 
   @Column()
-  lastName: string
+  lastName: string;
 
   @Column({ unique: true })
-  email: string
+  email: string;
 
   @Column({ select: false })
-  password: string
+  password: string;
 
   @Column({ nullable: true })
-  imgSrc: string
+  imgSrc: string;
 
   @Column({ nullable: true })
-  imgKey: string
+  imgKey: string;
 
   @Column({ nullable: true })
-  recoveryCode: string
+  recoveryCode: string;
+
+  @OneToMany(() => CashflowEntity, (cashflow) => cashflow.userId)
+  cashFlows: CashflowEntity[];
 }

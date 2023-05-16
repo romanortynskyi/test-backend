@@ -1,36 +1,43 @@
-import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { IncomeEntity } from 'src/entities/income.entity'
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository } from 'typeorm'
-import { CreateIncomeDto } from './dto/create-income.dto'
-import { GetIncomeQuery } from './dto/get-income-query.dto'
-import { UpdateIncomeDto } from './dto/update-income.dto'
+import { CashflowEntity } from 'src/entities/cashflow.entity';
+import { CashflowType } from 'src/types/cashflow.enum';
+import { Repository } from 'typeorm';
+import { CreateIncomeDto } from './dto/create-income.dto';
+import { GetIncomeQuery } from './dto/get-income-query.dto';
+import { UpdateIncomeDto } from './dto/update-income.dto';
 @Injectable()
 export class IncomeService {
   constructor(
-    @InjectRepository(IncomeEntity)
-    private readonly incomeRepository: Repository<IncomeEntity>,
+    @InjectRepository(CashflowEntity)
+    private readonly cashflowRepository: Repository<CashflowEntity>,
   ) {}
 
   async create(dto: CreateIncomeDto) {
-    return this.incomeRepository.create(dto)
+    return this.cashflowRepository.create({
+      ...dto,
+      type: CashflowType.Income,
+    });
   }
 
   async getAll(query: GetIncomeQuery) {
-    return this.incomeRepository.find({
+    return this.cashflowRepository.find({
       order: {
         ...(query.date && { dateOfIncome: query.date }),
         ...(query.alphabetic && { description: query.alphabetic }),
       },
-    })
+      where: {
+        type: CashflowType.Income,
+      },
+    });
   }
 
   async update(id: number, dto: UpdateIncomeDto) {
-    return this.incomeRepository.update({ id }, dto)
+    return this.cashflowRepository.update({ id }, dto);
   }
 
   async delete(id: number) {
-    return this.incomeRepository.softDelete({ id })
+    return this.cashflowRepository.delete(id);
   }
 }

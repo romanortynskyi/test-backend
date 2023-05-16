@@ -1,9 +1,10 @@
+import { CashflowType } from 'src/types/cashflow.enum';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
 
 @Entity()
-export class IncomeEntity extends BaseEntity {
+export class CashflowEntity extends BaseEntity {
   @Column({ type: Number, nullable: false })
   amount: number;
 
@@ -11,8 +12,11 @@ export class IncomeEntity extends BaseEntity {
   description: string;
 
   @Column({ type: Date, nullable: false })
-  dateOfIncome: Date;
+  date: Date;
 
-  @ManyToOne(() => UserEntity)
+  @Column({ enum: CashflowType })
+  type: CashflowType;
+
+  @ManyToOne(() => UserEntity, (user) => user.cashFlows)
   userId: string;
 }

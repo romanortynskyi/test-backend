@@ -1,9 +1,9 @@
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm'
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 
-import { ExpenseEntity } from 'src/entities/expense.entity'
-import { IncomeEntity } from 'src/entities/income.entity'
-import { UserEntity } from 'src/entities/user.entity'
+import { ExpenseEntity } from 'src/entities/expense.entity';
+import { IncomeEntity } from 'src/entities/income.entity';
+import { UserEntity } from 'src/entities/user.entity';
 
 export const ormOptions: TypeOrmModuleAsyncOptions = {
   imports: [ConfigModule],
@@ -18,4 +18,4 @@ export const ormOptions: TypeOrmModuleAsyncOptions = {
     entities: [UserEntity, IncomeEntity, ExpenseEntity],
     logging: false,
   }),
-}
+};
