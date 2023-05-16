@@ -9,22 +9,22 @@ import {
   Post,
 } from '@nestjs/common';
 
-import { WithdrawService } from './deposit.service';
+import { DepositService } from './deposit.service';
 import { CreateDepositDto } from './dto/create-deposit.dto';
 import { UpdateDepositDto } from './dto/update-deposit.dto';
 
 @Controller('deposits')
 export class DepositController {
-  constructor(private readonly withdrawService: WithdrawService) {}
+  constructor(private readonly depositService: DepositService) {}
 
   @Get(':id')
   async get(@Param('id', ParseIntPipe) id: number) {
-    return await this.withdrawService.get(id);
+    return await this.depositService.get(id);
   }
 
   @Post('')
   async create(@Body() dto: CreateDepositDto) {
-    return await this.withdrawService.create(dto);
+    return await this.depositService.create(dto);
   }
 
   @Patch(':id')
@@ -32,11 +32,11 @@ export class DepositController {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateDepositDto,
   ) {
-    return await this.withdrawService.update(id, dto);
+    return await this.depositService.update(id, dto);
   }
 
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    return await this.withdrawService.delete(id);
+    return await this.depositService.delete(id);
   }
 }

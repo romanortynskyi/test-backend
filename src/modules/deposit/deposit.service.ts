@@ -8,25 +8,25 @@ import { CreateDepositDto } from './dto/create-deposit.dto';
 import { UpdateDepositDto } from './dto/update-deposit.dto';
 
 @Injectable()
-export class WithdrawService {
+export class DepositService {
   constructor(
     @InjectRepository(DepositEntity)
-    private readonly withdrawRepository: Repository<DepositEntity>,
+    private readonly depositRepository: Repository<DepositEntity>,
   ) {}
 
   async get(id: number) {
-    return this.withdrawRepository.findOne({ where: { id } });
+    return this.depositRepository.findOne({ where: { id } });
   }
 
   async create(dto: CreateDepositDto) {
-    return this.withdrawRepository.create(dto);
+    return this.depositRepository.create(dto);
   }
 
   async update(id: number, dto: UpdateDepositDto) {
-    return this.withdrawRepository.update(id, dto);
+    return this.depositRepository.update(id, dto);
   }
 
   async delete(id: number) {
-    return this.withdrawRepository.delete(id);
+    return this.depositRepository.delete(id);
   }
 }
