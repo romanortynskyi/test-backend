@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ExpenseEntity } from 'src/entities/expense.entity';
-import { ExpenseController } from './expense.controller';
-import { ExpenseService } from './expense.service';
+import { Module } from '@nestjs/common'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { ExpenseEntity } from 'src/entities/expense.entity'
+import { ExpenseController } from './expense.controller'
+import { ExpenseService } from './expense.service'
 
 @Module({
   imports: [TypeOrmModule.forFeature([ExpenseEntity])],
