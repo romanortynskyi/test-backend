@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 
 import { CreditService } from './credit.service';
+import { CreateCreditPaymentDto } from './dto/create-credit-payment.dto';
 import { CreateCreditDto } from './dto/create-credit.dto';
 import { UpdateCreditDto } from './dto/update-credit.dto';
 
@@ -22,7 +23,14 @@ export class CreditController {
     return await this.creditService.get(id);
   }
 
-  @Get('/stats')
+  @Post(':id/cashflow')
+  async createCashflow(
+    @Param('id') id: number,
+    @Body() dto: CreateCreditPaymentDto,
+  ) {
+    return await this.creditService.createPayment(id, dto);
+  }
+
   @Post()
   async create(@Body() dto: CreateCreditDto) {
     return await this.creditService.create(dto);

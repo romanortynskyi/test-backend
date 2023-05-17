@@ -2,6 +2,8 @@ import { Column, Entity, OneToMany } from 'typeorm';
 
 import { BaseEntity } from './base.entity';
 import { CashflowEntity } from './cashflow.entity';
+import { CreditEntity } from './credit.entity';
+import { DepositEntity } from './deposit.entity';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
@@ -28,4 +30,10 @@ export class UserEntity extends BaseEntity {
 
   @OneToMany(() => CashflowEntity, (cashflow) => cashflow.userId)
   cashFlows: CashflowEntity[];
+
+  @OneToMany(() => CreditEntity, (credits) => credits.userId)
+  credits: CreditEntity[];
+
+  @OneToMany(() => DepositEntity, (credits) => credits.userId)
+  deposits: DepositEntity[];
 }

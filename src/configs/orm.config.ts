@@ -1,8 +1,6 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { CashflowEntity } from 'src/entities/cashflow.entity';
-import { CreditEntity } from 'src/entities/credit.entity';
-import { DepositEntity } from 'src/entities/deposit.entity';
 
 import { UserEntity } from 'src/entities/user.entity';
 
@@ -16,7 +14,8 @@ export const ormOptions: TypeOrmModuleAsyncOptions = {
     username: configService.get('DATABASE_USER'),
     password: configService.get('DATABASE_PASSWORD'),
     database: configService.get('DATABASE_NAME'),
-    entities: [UserEntity, CashflowEntity, CreditEntity, DepositEntity],
+    entities: [UserEntity, CashflowEntity],
     logging: false,
+    synchronize: true,
   }),
 };

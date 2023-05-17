@@ -1,7 +1,9 @@
-import { Column } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 import { BaseEntity } from './base.entity';
-
+import { CreditPaymentEntity } from './credit-payment.entity';
+import { UserEntity } from './user.entity';
+@Entity('credit')
 export class CreditEntity extends BaseEntity {
   @Column({ type: String, nullable: false })
   title: string;
@@ -14,4 +16,13 @@ export class CreditEntity extends BaseEntity {
 
   @Column({ type: Date, nullable: false })
   endDate: Date;
+
+  @OneToMany(
+    () => CreditPaymentEntity,
+    (creditPayment) => creditPayment.creditId,
+  )
+  payments: CreditPaymentEntity[];
+
+  @ManyToOne(() => UserEntity)
+  userId: number;
 }
