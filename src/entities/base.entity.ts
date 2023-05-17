@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
+} from 'typeorm'
 
 export class BaseEntity extends TypeOrmBaseEntity {
   @PrimaryGeneratedColumn()

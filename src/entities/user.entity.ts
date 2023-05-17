@@ -18,4 +18,10 @@ export class UserEntity extends BaseEntity {
 
   @Column({ select: false })
   password: string
+
+  @Column({ nullable: true })
+  imgSrc: string
+
+  @Column({ nullable: true })
+  imgKey: string
 }
