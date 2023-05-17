@@ -17,12 +17,12 @@ import { ExpenseService } from './expense.service';
 @Controller('expenses')
 export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
-  @Get('')
+  @Get()
   async getAll(@Query() query: GetExpenseQuery) {
     return await this.expenseService.getAll(query);
   }
 
-  @Post('')
+  @Post()
   async create(@Body() dto: CreateExpenseDto) {
     return await this.expenseService.create(dto);
   }

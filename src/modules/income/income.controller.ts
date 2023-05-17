@@ -17,12 +17,12 @@ import { IncomeService } from './income.service';
 export class IncomeController {
   constructor(private readonly incomeService: IncomeService) {}
 
-  @Get('')
+  @Get()
   async getAll(@Query() query: GetIncomeQuery) {
     return await this.incomeService.getAll(query);
   }
 
-  @Post('')
+  @Post()
   async create(@Body() dto: CreateIncomeDto) {
     return await this.incomeService.create(dto);
   }

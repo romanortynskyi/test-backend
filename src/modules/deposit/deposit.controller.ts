@@ -22,7 +22,7 @@ export class DepositController {
     return await this.depositService.get(id);
   }
 
-  @Post('')
+  @Post()
   async create(@Body() dto: CreateDepositDto) {
     return await this.depositService.create(dto);
   }

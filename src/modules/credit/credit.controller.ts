@@ -22,7 +22,8 @@ export class CreditController {
     return await this.creditService.get(id);
   }
 
-  @Post('')
+  @Get('/stats')
+  @Post()
   async create(@Body() dto: CreateCreditDto) {
     return await this.creditService.create(dto);
   }
