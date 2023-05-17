@@ -1,8 +1,8 @@
 import {
   Body,
+  Controller,
   Delete,
   Get,
-  Injectable,
   Param,
   ParseIntPipe,
   Patch,
@@ -14,7 +14,7 @@ import { GetExpenseQuery } from './dto/get-expense-query.dto';
 import { UpdateExpanseDto } from './dto/update-expense.dto';
 import { ExpenseService } from './expense.service';
 
-@Injectable()
+@Controller('expenses')
 export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
   @Get('')
