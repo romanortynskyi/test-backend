@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -14,6 +15,7 @@ import { UserEntity } from 'src/entities/user.entity'
 import { getObjectWithoutKeys } from 'src/utils/get-object-without-keys'
 import {
   EMAIL_ALREADY_EXISTS,
+  INCORRECT_RECOVERY_CODE,
   USER_NOT_FOUND,
   WRONG_EMAIL_OR_PASSWORD,
 } from 'src/consts/error-messages'
@@ -24,6 +26,8 @@ import { EmailService } from '../email/email.service'
 import { LoginDto } from './dto/login.dto'
 import { SignUpDto } from './dto/sign-up.dto'
 import { ForgotPasswordDto } from './dto/forgot-password.dto'
+import { VerifyRecoveryCodeDto } from './dto/verify-recovery-code.dto'
+import { ResetPasswordDto } from './dto/reset-password.dto'
 
 @Injectable()
 export class AuthService {
@@ -147,23 +151,11 @@ export class AuthService {
     }
 
     const { id, firstName } = user
-
     const recoveryCode = getRandomCode(6)
-    
-    const updatedUser = {
-      ...user,
-      recoveryCode,
-    }
+    await this.userRepository.update(id, { recoveryCode })
 
-    await this.userRepository.update(id, updatedUser)
-
-    setTimeout(async () => {
-      const resetUser = {
-        ...user,
-        recoveryCode: null,
-      }
-
-      await this.userRepository.update(id, resetUser)
+    setTimeout(() => {
+      this.userRepository.update(id, { recoveryCode: null })
     }, 24 * 60 * 60 * 1000) // 24 hours
 
     await this.emailService.sendEmail({
@@ -175,6 +167,46 @@ export class AuthService {
         firstName,
       },
     })
+  }
+
+  async verifyRecoveryCode(dto: VerifyRecoveryCodeDto) {
+    const { email, recoveryCode } = dto
+
+    const user = await this.userRepository.findOneBy({
+      email,
+      recoveryCode,
+    })
+
+    if (!user) {
+      throw new BadRequestException(INCORRECT_RECOVERY_CODE)
+    }
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const {
+      email,
+      recoveryCode,
+      password,
+    } = dto
+
+    const user = await this.userRepository.findOneBy({
+      email,
+      recoveryCode,
+    })
+
+    if (!user) {
+      throw new NotFoundException(USER_NOT_FOUND)
+    }
+
+    const hashedPassword = await argon.hash(password)
+
+    await this.userRepository.update(
+      {
+        email,
+        recoveryCode,
+      },
+      { password: hashedPassword },
+    )
   }
 
   async getUserByToken(bearerToken: string) {

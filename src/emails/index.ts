@@ -11,14 +11,4 @@ export const templateList = {
       template: 'ua/reset-password',
     },
   },
-  [emailSubject.SUCCESSFUL_PASSWORD_RESET]: {
-    en: {
-      subject: 'Your password was changed',
-      template: 'en/sucessful-password-reset',
-    },
-    ua: {
-      subject: 'Ваш пароль було змінено',
-      template: 'ua/sucessful-password-reset',
-    },
-  },
 }
