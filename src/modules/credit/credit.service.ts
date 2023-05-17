@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreditPaymentEntity } from 'src/entities/credit-payment.entity';
 import { CreditEntity } from 'src/entities/credit.entity';
 import { Repository } from 'typeorm';
-import { CreateCreditCashflowDto } from './dto/create-credit-payment.dto';
+import { CreateCreditPaymentDto } from './dto/create-credit-payment.dto';
 import { CreateCreditDto } from './dto/create-credit.dto';
 import { UpdateCreditDto } from './dto/update-credit.dto';
 
@@ -24,7 +24,7 @@ export class CreditService {
     return this.creditRepository.create(dto);
   }
 
-  async createPayment(id: number, dto: CreateCreditCashflowDto) {
+  async createPayment(id: number, dto: CreateCreditPaymentDto) {
     return this.creditPaymentRepository.create({ id, ...dto });
   }
 
