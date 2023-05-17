@@ -14,6 +14,7 @@ import { AuthService } from './auth.service'
 import { LoginDto } from './dto/login.dto'
 import { SignUpDto } from './dto/sign-up.dto'
 import { JwtGuard } from './guards'
+import { ForgotPasswordDto } from './dto/forgot-password.dto'
 
 @Controller('auth')
 export class AuthController {
@@ -30,10 +31,14 @@ export class AuthController {
     return this.authService.login(dto)
   }
 
+  @Post('forgot-password')
+  async sendResetPaswordEmail(@Body() dto: ForgotPasswordDto) {
+    return this.authService.sendResetPasswordEmail(dto)
+  }
+
   @UseGuards(JwtGuard)
   @Get('me')
   getMe(@Headers('Authorization') authorization: string) {
-
     return this.authService.getUserByToken(authorization)
   }
 }

@@ -8,12 +8,14 @@ import { AuthController } from './auth.controller'
 import { JwtModule } from '@nestjs/jwt'
 import { JwtStrategy } from './strategy'
 import { UploadModule } from 'src/upload/upload.module'
+import { EmailModule } from '../email/email.module'
 
 @Module({
   imports: [
     JwtModule.register({}),
     TypeOrmModule.forFeature([UserEntity]),
     UploadModule,
+    EmailModule,
   ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
