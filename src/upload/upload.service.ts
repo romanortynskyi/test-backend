@@ -53,6 +53,7 @@ export class UploadService {
     }
     catch (e) {
       console.log(e)
+      throw new InternalServerErrorException(INTERNAL_SERVER_ERROR)
     }
   }
 
