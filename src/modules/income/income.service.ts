@@ -3,9 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { CashflowEntity } from 'src/entities/cashflow.entity';
 import { CashflowType } from 'src/types/cashflow.enum';
-import { Repository } from 'typeorm';
+import { Raw, Repository } from 'typeorm';
 import { CreateIncomeDto } from './dto/create-income.dto';
 import { GetIncomeQuery } from './dto/get-income-query.dto';
+import { QueryIncomeStatsDto } from './dto/query-income-stats.dto';
 import { UpdateIncomeDto } from './dto/update-income.dto';
 @Injectable()
 export class IncomeService {
@@ -32,6 +33,29 @@ export class IncomeService {
       },
       take: query.perPage,
     });
+  }
+
+  async getStats(query: QueryIncomeStatsDto) {
+    const profit = await this.cashflowRepository
+      .createQueryBuilder('cashflow')
+      .where('cashflow.type = :type', { type: CashflowType.Income })
+      .where('cashflow.date >= :startDate AND cashflow.date <= endDate', {
+        startDate: query.startDate,
+        endDate: query.endDate,
+      })
+      .select('SUM(cashflow.amount)', 'sum')
+      .getRawOne();
+    const totalCount = await this.cashflowRepository.count({
+      where: {
+        type: CashflowType.Income,
+        date: Raw(
+          (alias) =>
+            `${alias} >= ${query.startDate} AND ${alias} <= ${query.endDate}`,
+        ),
+      },
+    });
+
+    return { totalCount, profit };
   }
 
   async update(id: number, dto: UpdateIncomeDto) {

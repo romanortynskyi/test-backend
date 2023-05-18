@@ -11,7 +11,8 @@ import {
 } from '@nestjs/common';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { GetExpenseQuery } from './dto/get-expense-query.dto';
-import { UpdateExpanseDto } from './dto/update-expense.dto';
+import { QueryExpenseStatsDto } from './dto/query-expense-stats.dto';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
 import { ExpenseService } from './expense.service';
 
 @Controller('expenses')
@@ -22,6 +23,11 @@ export class ExpenseController {
     return await this.expenseService.getAll(query);
   }
 
+  @Get('/statistics')
+  async getStats(@Query() query: QueryExpenseStatsDto) {
+    return await this.expenseService.getStats(query);
+  }
+
   @Post()
   async create(@Body() dto: CreateExpenseDto) {
     return await this.expenseService.create(dto);
@@ -30,7 +36,7 @@ export class ExpenseController {
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdateExpanseDto,
+    @Body() dto: UpdateExpenseDto,
   ) {
     return await this.expenseService.update(id, dto);
   }
