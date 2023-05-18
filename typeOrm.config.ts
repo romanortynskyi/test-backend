@@ -5,6 +5,7 @@ import { config } from 'dotenv'
 import { UserEntity } from './src/entities/user.entity'
 import { CreateUser1683525459189 } from './migrations/1683525459189-CreateUser'
 import { AddUserImage1684060336867 } from './migrations/1684060336867-AddUserImage'
+import { AddUserRecoveryCode1684327028472 } from './migrations/1684327028472-AddUserRecoveryCode'
 
 config({
   path: '.env.local',
@@ -23,5 +24,6 @@ export default new DataSource({
   migrations: [
     CreateUser1683525459189,
     AddUserImage1684060336867,
+    AddUserRecoveryCode1684327028472,
   ]
 })

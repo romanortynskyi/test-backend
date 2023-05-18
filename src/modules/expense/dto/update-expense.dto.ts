@@ -1,3 +1,3 @@
-import { CreateExpenseDto } from './create-expense.dto';
+import { CreateExpenseDto } from './create-expense.dto'
 
-export class UpdateExpanseDto implements Partial<CreateExpenseDto> {}
+export class UpdateExpenseDto implements Partial<CreateExpenseDto> {}

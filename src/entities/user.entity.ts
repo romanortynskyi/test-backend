@@ -24,4 +24,7 @@ export class UserEntity extends BaseEntity {
 
   @Column({ nullable: true })
   imgKey: string
+
+  @Column({ nullable: true })
+  recoveryCode: string
 }
