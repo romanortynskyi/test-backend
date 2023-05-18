@@ -30,6 +30,7 @@ export class IncomeService {
       where: {
         type: CashflowType.Income,
       },
+      take: query.perPage,
     });
   }
 

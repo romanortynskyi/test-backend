@@ -12,4 +12,7 @@ export class CreateCreditDto {
 
   @IsDateString()
   endDate: Date;
+
+  @IsNumber()
+  userId: number;
 }

@@ -26,8 +26,11 @@ export class ExpenseService {
       order: {
         ...(query.date && { dateOfIncome: query.date }),
         ...(query.alphabetic && { description: query.alphabetic }),
+        ...(query.amount && { amount: query.amount }),
       },
       where: { type: CashflowType.Expense },
+      take: query.perPage,
+      skip: query.page * query.perPage,
     });
   }
 

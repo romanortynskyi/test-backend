@@ -1,4 +1,4 @@
-import { IsDateString, IsNumber } from 'class-validator';
+import { IsDateString, IsNumber, IsString } from 'class-validator';
 
 export class CreateExpenseDto {
   @IsNumber()
@@ -6,4 +6,10 @@ export class CreateExpenseDto {
 
   @IsDateString()
   date: Date;
+
+  @IsString()
+  description: string;
+
+  @IsNumber()
+  userId: number;
 }

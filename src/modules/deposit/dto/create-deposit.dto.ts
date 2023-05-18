@@ -12,4 +12,7 @@ export class CreateDepositDto {
 
   @IsDateString()
   endDate: Date;
+
+  @IsNumber()
+  userId: number;
 }

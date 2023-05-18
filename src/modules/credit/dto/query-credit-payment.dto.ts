@@ -1,7 +1,7 @@
 import { IsIn, IsNumber } from 'class-validator';
 import { OrderBy } from 'src/types/query.enum';
 
-export class GetExpenseQuery {
+export class QueryCreditPayment {
   @IsNumber()
   page: number;
 
