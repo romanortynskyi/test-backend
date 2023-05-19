@@ -1,13 +1,12 @@
-import { IsDateString, IsNumber, IsString, MinLength } from 'class-validator';
+import { IsDateString, IsNumber, IsString } from 'class-validator';
 
-export class CreateIncomeDto {
+export class CreateCreditPaymentDto {
   @IsNumber()
   amount: number;
 
   @IsDateString()
   date: Date;
 
-  @MinLength(4)
   @IsString()
   description: string;
 

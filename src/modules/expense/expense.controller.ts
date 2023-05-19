@@ -1,41 +1,48 @@
 import {
   Body,
+  Controller,
   Delete,
   Get,
-  Injectable,
   Param,
   ParseIntPipe,
   Patch,
   Post,
   Query,
-} from '@nestjs/common'
-import { CreateIncomeDto } from '../income/dto/create-income.dto'
-import { GetIncomeQuery } from '../income/dto/get-income-query.dto'
-import { ExpenseService } from './expense.service'
+} from '@nestjs/common';
+import { CreateExpenseDto } from './dto/create-expense.dto';
+import { GetExpenseQuery } from './dto/get-expense-query.dto';
+import { QueryExpenseStatsDto } from './dto/query-expense-stats.dto';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { ExpenseService } from './expense.service';
 
-@Injectable()
+@Controller('expenses')
 export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
-  @Get('')
-  async getAll(@Query() query: GetIncomeQuery) {
-    return await this.expenseService.getAll(query)
+  @Get()
+  async getAll(@Query() query: GetExpenseQuery) {
+    return await this.expenseService.getAll(query);
   }
 
-  @Post('')
-  async create(@Body() dto: CreateIncomeDto) {
-    return await this.expenseService.create(dto)
+  @Get('/statistics')
+  async getStats(@Query() query: QueryExpenseStatsDto) {
+    return await this.expenseService.getStats(query);
+  }
+
+  @Post()
+  async create(@Body() dto: CreateExpenseDto) {
+    return await this.expenseService.create(dto);
   }
 
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: CreateIncomeDto,
+    @Body() dto: UpdateExpenseDto,
   ) {
-    return await this.expenseService.update(id, dto)
+    return await this.expenseService.update(id, dto);
   }
 
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    return await this.expenseService.delete(id)
+    return await this.expenseService.delete(id);
   }
 }

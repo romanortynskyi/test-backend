@@ -1,9 +1,10 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
+
 import { BaseEntity } from './base.entity';
 import { UserEntity } from './user.entity';
 
-@Entity()
-export class IncomeEntity extends BaseEntity {
+@Entity('cashflow')
+export class CashflowEntity extends BaseEntity {
   @Column({ type: Number, nullable: false })
   amount: number;
 
@@ -11,8 +12,11 @@ export class IncomeEntity extends BaseEntity {
   description: string;
 
   @Column({ type: Date, nullable: false })
-  dateOfIncome: Date;
+  date: Date;
+
+  @Column({ type: String })
+  type: string;
 
   @ManyToOne(() => UserEntity)
-  userId: string;
+  userId: number;
 }
