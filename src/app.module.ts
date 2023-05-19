@@ -1,31 +1,25 @@
-import { Module } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { TypeOrmModule } from '@nestjs/typeorm'
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { UserEntity } from 'src/entities/user.entity'
-import { AuthModule } from 'src/auth/auth.module'
+import { AuthModule } from 'src/modules/auth/auth.module';
+import { UserModule } from 'src/modules/user/user.module';
+import { envOptions, ormOptions } from './configs';
+import { CreditModule } from './modules/credit/credit.module';
+import { DepositModule } from './modules/deposit/deposit.module';
+import { ExpenseModule } from './modules/expense/expense.module';
+import { IncomeModule } from './modules/income/income.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env.local',
-    }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get('DATABASE_HOST'),
-        port: parseInt(configService.get('DATABASE_PORT')),
-        username: configService.get('DATABASE_USER'),
-        password: configService.get('DATABASE_PASSWORD'),
-        database: configService.get('DATABASE_NAME'),
-        entities: [UserEntity],
-        logging: false,
-      })
-    }),
+    ConfigModule.forRoot(envOptions),
+    TypeOrmModule.forRootAsync(ormOptions),
+    ExpenseModule,
+    IncomeModule,
+    CreditModule,
+    DepositModule,
     AuthModule,
+    UserModule,
   ],
 })
 export class AppModule {}
