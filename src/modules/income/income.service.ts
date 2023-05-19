@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import { INCOME_NOT_FOUND } from 'src/consts/error-messages';
 import { CashflowEntity } from 'src/entities/cashflow.entity';
 import { CashflowType } from 'src/types/cashflow.enum';
 import { Raw, Repository } from 'typeorm';
+import { AuthService } from '../auth/auth.service';
 import { CreateIncomeDto } from './dto/create-income.dto';
 import { GetIncomeQuery } from './dto/get-income-query.dto';
 import { QueryIncomeStatsDto } from './dto/query-income-stats.dto';
 import { UpdateIncomeDto } from './dto/update-income.dto';
-import { AuthService } from '../auth/auth.service';
-import { INCOME_NOT_FOUND } from 'src/consts/error-messages';
 @Injectable()
 export class IncomeService {
   constructor(
@@ -26,12 +26,9 @@ export class IncomeService {
   }
 
   async getAll(query: GetIncomeQuery, authorization: string) {
-    const { id: userId } = await this.authService.getUserByToken(authorization)
+    const { id: userId } = await this.authService.getUserByToken(authorization);
 
-    const {
-      page,
-      perPage,
-    } = query
+    const { page, perPage } = query;
 
     return this.cashflowRepository
       .createQueryBuilder('cashflow')
@@ -39,11 +36,11 @@ export class IncomeService {
       .andWhere('cashflow.type = :type', { type: CashflowType.Income })
       .skip(page * perPage)
       .limit(perPage)
-      .getMany()
+      .getMany();
   }
 
   async getStats(query: QueryIncomeStatsDto, authorization: string) {
-    const { id: userId } = await this.authService.getUserByToken(authorization)
+    const { id: userId } = await this.authService.getUserByToken(authorization);
 
     const profit = await this.cashflowRepository
       .createQueryBuilder('cashflow')
@@ -73,12 +70,12 @@ export class IncomeService {
     const income = await this.cashflowRepository.findOneBy({
       id,
       type: CashflowType.Income,
-    })
+    });
 
     if (!income) {
-      throw new NotFoundException(INCOME_NOT_FOUND)
+      throw new NotFoundException(INCOME_NOT_FOUND);
     }
-    
+
     return this.cashflowRepository.save({
       ...income,
       ...dto,
