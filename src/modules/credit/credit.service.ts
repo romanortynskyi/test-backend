@@ -45,7 +45,11 @@ export class CreditService {
   }
 
   async createPayment(id: number, dto: CreateCreditPaymentDto) {
-    return this.creditPaymentRepository.save({ creditId: id, ...dto });
+    return this.creditPaymentRepository.save({
+      creditId: id,
+      ...dto,
+      type: CashflowType.Credit,
+    });
   }
 
   async updatePayment(id: number, dto: UpdateDepositPaymentDto) {
