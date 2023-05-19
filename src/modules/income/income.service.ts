@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { CashflowEntity } from 'src/entities/cashflow.entity';
@@ -9,6 +9,7 @@ import { GetIncomeQuery } from './dto/get-income-query.dto';
 import { QueryIncomeStatsDto } from './dto/query-income-stats.dto';
 import { UpdateIncomeDto } from './dto/update-income.dto';
 import { AuthService } from '../auth/auth.service';
+import { INCOME_NOT_FOUND } from 'src/consts/error-messages';
 @Injectable()
 export class IncomeService {
   constructor(
@@ -69,7 +70,19 @@ export class IncomeService {
   }
 
   async update(id: number, dto: UpdateIncomeDto) {
-    return this.cashflowRepository.update({ id }, dto);
+    const income = await this.cashflowRepository.findOneBy({
+      id,
+      type: CashflowType.Income,
+    })
+
+    if (!income) {
+      throw new NotFoundException(INCOME_NOT_FOUND)
+    }
+    
+    return this.cashflowRepository.save({
+      ...income,
+      ...dto,
+    });
   }
 
   async delete(id: number) {
