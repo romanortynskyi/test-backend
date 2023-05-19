@@ -9,8 +9,10 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
+import { JwtGuard } from '../auth/guards';
 import { CreditService } from './credit.service';
 import { CreateCreditPaymentDto } from './dto/create-credit-payment.dto';
 import { CreateCreditDto } from './dto/create-credit.dto';
@@ -35,7 +37,7 @@ export class CreditController {
     return await this.creditService.createPayment(id, dto);
   }
 
-  // @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard)
   @Get(':id/payments')
   async getPayments(
     @Param('id') id: number,

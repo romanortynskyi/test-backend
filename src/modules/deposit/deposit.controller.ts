@@ -57,7 +57,7 @@ export class DepositController {
     return await this.depositService.update(id, dto);
   }
 
-  @Patch(':id/cashflow')
+  @Patch(':id/payments')
   async updatePayment(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateDepositPaymentDto,
@@ -70,7 +70,7 @@ export class DepositController {
     return await this.depositService.delete(id);
   }
 
-  @Delete(':id/cashflow')
+  @Delete(':id/payments')
   async deletePayment(@Param('id') id: number) {
     return await this.depositService.deletePayment(id);
   }

@@ -36,7 +36,7 @@ export class DepositService {
     return this.depositPaymentRepository
       .createQueryBuilder('cashflow')
       .where('cashflow.userId = :userId', { userId: user.id })
-      .andWhere('cashflow.type = :type', { type: CashflowType.Expense })
+      .andWhere('cashflow.type = :type', { type: CashflowType.Deposit })
       .andWhere('cashflow.depositId = :depositId', { depositId: id })
       .skip(page * perPage)
       .limit(perPage)
@@ -44,11 +44,15 @@ export class DepositService {
   }
 
   async create(dto: CreateDepositDto) {
-    return this.depositRepository.create(dto);
+    return this.depositRepository.save(dto);
   }
 
   async createPayment(id: number, dto: CreateDepositPaymentDto) {
-    return this.depositPaymentRepository.create({ depositId: id, ...dto });
+    return this.depositPaymentRepository.save({
+      depositId: id,
+      ...dto,
+      type: CashflowType.Deposit,
+    });
   }
 
   async updatePayment(id: number, dto: UpdateDepositPaymentDto) {

@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsDateString, IsNumber, IsString } from 'class-validator';
 
 export class CreateDepositDto {
@@ -5,6 +6,7 @@ export class CreateDepositDto {
   title: string;
 
   @IsNumber()
+  @Transform((params) => parseInt(params.value))
   totalAmountToPay: number;
 
   @IsDateString()
@@ -14,5 +16,6 @@ export class CreateDepositDto {
   endDate: Date;
 
   @IsNumber()
+  @Transform((params) => parseInt(params.value))
   userId: number;
 }
