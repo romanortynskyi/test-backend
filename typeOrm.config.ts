@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
 
-import { CreateCashflow1684400984857 } from 'migrations/1684400984857-CreateCashflow';
+import { CreateCashflow1684400984857 } from './migrations/1684400984857-CreateCashflow';
 import { CashflowEntity } from 'src/entities/cashflow.entity';
 import { CreditPaymentEntity } from 'src/entities/credit-payment.entity';
 import { CreditEntity } from 'src/entities/credit.entity';
