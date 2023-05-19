@@ -1,0 +1,64 @@
+import { Repository } from 'typeorm';
+
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { DepositPaymentEntity } from 'src/entities/deposit-payment.entity';
+import { DepositEntity } from 'src/entities/deposit.entity';
+import { CreateDepositPaymentDto } from './dto/create-deposit-payment.dto';
+import { CreateDepositDto } from './dto/create-deposit.dto';
+import { QueryDepositPayment } from './dto/query-deposit-payment.dto';
+import { UpdateDepositPaymentDto } from './dto/update-deposit-payment.dto';
+import { UpdateDepositDto } from './dto/update-deposit.dto';
+
+@Injectable()
+export class DepositService {
+  constructor(
+    @InjectRepository(DepositEntity)
+    private readonly depositRepository: Repository<DepositEntity>,
+
+    @InjectRepository(DepositPaymentEntity)
+    private readonly depositPaymentRepository: Repository<DepositPaymentEntity>,
+  ) {}
+
+  async get(id: number) {
+    return this.depositRepository.findOne({ where: { id } });
+  }
+
+  async getPayments(id: number, query: QueryDepositPayment) {
+    return this.depositPaymentRepository.findAndCount({
+      where: { depositId: id },
+      skip: query.perPage * query.page,
+      take: query.perPage,
+      order: {
+        ...(query.date && { date: { direction: query.date } }),
+        ...(query.alphabetic && { description: query.alphabetic }),
+        ...(query.amount && { amount: query.amount }),
+      },
+    });
+  }
+
+  async create(dto: CreateDepositDto) {
+    return this.depositRepository.create(dto);
+  }
+
+  async createPayment(id: number, dto: CreateDepositPaymentDto) {
+    return this.depositPaymentRepository.create({ depositId: id, ...dto });
+  }
+
+  async updatePayment(id: number, dto: UpdateDepositPaymentDto) {
+    return this.depositPaymentRepository.update(id, dto);
+  }
+
+  async deletePayment(id: number) {
+    return this.depositPaymentRepository.delete(id);
+  }
+
+  async update(id: number, dto: UpdateDepositDto) {
+    return this.depositRepository.update(id, dto);
+  }
+
+  async delete(id: number) {
+    return this.depositRepository.delete(id);
+  }
+}
