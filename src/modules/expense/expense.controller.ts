@@ -3,12 +3,15 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   ParseIntPipe,
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtGuard } from '../auth/guards';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { GetExpenseQuery } from './dto/get-expense-query.dto';
 import { QueryExpenseStatsDto } from './dto/query-expense-stats.dto';
@@ -18,9 +21,14 @@ import { ExpenseService } from './expense.service';
 @Controller('expenses')
 export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
+
+  @UseGuards(JwtGuard)
   @Get()
-  async getAll(@Query() query: GetExpenseQuery) {
-    return await this.expenseService.getAll(query);
+  async getAll(
+    @Headers('Authorization') authorization: string,
+    @Query() query: GetExpenseQuery,
+  ) {
+    return await this.expenseService.getAll(query, authorization);
   }
 
   @Get('/statistics')

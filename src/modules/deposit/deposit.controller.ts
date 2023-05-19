@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   ParseIntPipe,
   Patch,
@@ -26,12 +27,13 @@ export class DepositController {
     return await this.depositService.get(id);
   }
 
-  @Get(':id/cashflow')
-  async getCashflow(
+  @Get(':id/payments')
+  async getPayments(
     @Param('id', ParseIntPipe) id: number,
     @Query() query: QueryDepositPayment,
+    @Headers('Authorization') authorization: string,
   ) {
-    return await this.depositService.getPayments(id, query);
+    return await this.depositService.getPayments(id, query, authorization);
   }
 
   @Post()
@@ -39,7 +41,7 @@ export class DepositController {
     return await this.depositService.create(dto);
   }
 
-  @Post(':id/cashflow')
+  @Post(':id/payments')
   async createPayment(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: CreateDepositPaymentDto,

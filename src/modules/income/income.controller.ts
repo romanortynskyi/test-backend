@@ -3,18 +3,18 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Param,
   ParseIntPipe,
   Post,
-  Query,
-  Headers,
-  UseGuards,
   Put,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtGuard } from '../auth/guards';
 import { CreateIncomeDto } from './dto/create-income.dto';
 import { GetIncomeQuery } from './dto/get-income-query.dto';
 import { IncomeService } from './income.service';
-import { JwtGuard } from '../auth/guards';
 
 @Controller('incomes')
 export class IncomeController {
@@ -22,7 +22,10 @@ export class IncomeController {
 
   @UseGuards(JwtGuard)
   @Get()
-  async getAll(@Headers('Authorization') authorization: string, @Query() query: GetIncomeQuery) {
+  async getAll(
+    @Headers('Authorization') authorization: string,
+    @Query() query: GetIncomeQuery,
+  ) {
     return await this.incomeService.getAll(query, authorization);
   }
 

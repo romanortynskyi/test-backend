@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CashflowEntity } from 'src/entities/cashflow.entity';
 import { CashflowType } from 'src/types/cashflow.enum';
 import { Raw, Repository } from 'typeorm';
+import { AuthService } from '../auth/auth.service';
 import { CreateExpenseDto } from './dto/create-expense.dto';
 import { GetExpenseQuery } from './dto/get-expense-query.dto';
 import { QueryExpenseStatsDto } from './dto/query-expense-stats.dto';
@@ -13,26 +14,28 @@ export class ExpenseService {
   constructor(
     @InjectRepository(CashflowEntity)
     private readonly cashflowRepository: Repository<CashflowEntity>,
+
+    private readonly authService: AuthService,
   ) {}
 
   async create(dto: CreateExpenseDto) {
-    return this.cashflowRepository.create({
+    return this.cashflowRepository.save({
       ...dto,
       type: CashflowType.Expense,
     });
   }
 
-  async getAll(query: GetExpenseQuery) {
-    return await this.cashflowRepository.find({
-      order: {
-        ...(query.date && { dateOfIncome: query.date }),
-        ...(query.alphabetic && { description: query.alphabetic }),
-        ...(query.amount && { amount: query.amount }),
-      },
-      where: { type: CashflowType.Expense },
-      take: query.perPage,
-      skip: query.page * query.perPage,
-    });
+  async getAll(query: GetExpenseQuery, auth: string) {
+    const { page, perPage } = query;
+    const user = await this.authService.getUserByToken(auth);
+
+    return await this.cashflowRepository
+      .createQueryBuilder('cashflow')
+      .where('cashflow.userId = :userId', { userId: user.id })
+      .andWhere('cashflow.type = :type', { type: CashflowType.Expense })
+      .skip(page * perPage)
+      .limit(perPage)
+      .getMany();
   }
 
   async getStats(query: QueryExpenseStatsDto) {
