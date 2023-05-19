@@ -80,7 +80,7 @@ export class CreditService {
       throw new NotFoundException(CREDIT_NOT_FOUND)
     }
 
-    return this.creditRepository.save(id, {
+    return this.creditRepository.save({
       ...dto,
       ...credit,
     });

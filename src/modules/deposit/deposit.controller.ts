@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 import { DepositService } from './deposit.service';
@@ -17,10 +18,17 @@ import { CreateDepositDto } from './dto/create-deposit.dto';
 import { QueryDepositPayment } from './dto/query-deposit-payment.dto';
 import { UpdateDepositPaymentDto } from './dto/update-deposit-payment.dto';
 import { UpdateDepositDto } from './dto/update-deposit.dto';
+import { JwtGuard } from '../auth/guards';
 
 @Controller('deposits')
 export class DepositController {
   constructor(private readonly depositService: DepositService) {}
+
+  @UseGuards(JwtGuard)
+  @Get()
+  getDeposits(@Headers('Authorization') authorization: string) {
+    return this.depositService.getDeposits(authorization)
+  }
 
   @Get(':id')
   async get(@Param('id', ParseIntPipe) id: number) {

@@ -7,7 +7,7 @@ import { AuthService } from './auth.service'
 import { AuthController } from './auth.controller'
 import { JwtModule } from '@nestjs/jwt'
 import { JwtStrategy } from './strategy'
-import { UploadModule } from 'src/upload/upload.module'
+import { UploadModule } from 'src/modules/upload/upload.module'
 import { EmailModule } from '../email/email.module'
 
 @Module({

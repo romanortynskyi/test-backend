@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { UserController } from './user.controller'
 import { UserService } from './user.service'
 import { UserEntity } from 'src/entities/user.entity'
-import { UploadModule } from 'src/upload/upload.module'
+import { UploadModule } from 'src/modules/upload/upload.module'
 
 @Module({
   imports: [

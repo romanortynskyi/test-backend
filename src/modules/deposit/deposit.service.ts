@@ -25,6 +25,16 @@ export class DepositService {
     private readonly authService: AuthService,
   ) {}
 
+  async getDeposits(bearerToken: string) {
+    const { id: userId } = await this.authService.getUserByToken(bearerToken)
+
+    const deposits = await this.depositRepository.findBy({
+      userId
+    })
+
+    return deposits
+  }
+
   async get(id: number) {
     return this.depositRepository.findOne({ where: { id } });
   }

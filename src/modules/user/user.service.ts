@@ -5,7 +5,7 @@ import { Repository } from 'typeorm'
 import { UserEntity } from 'src/entities/user.entity'
 import { EMAIL_ALREADY_EXISTS, USER_NOT_FOUND } from 'src/consts/error-messages'
 import { UpdateUserDto } from './dto/update-user.dto'
-import { UploadService } from 'src/upload/upload.service'
+import { UploadService } from 'src/modules/upload/upload.service'
 
 @Injectable()
 export class UserService {

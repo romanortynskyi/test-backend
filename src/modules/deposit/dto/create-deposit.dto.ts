@@ -3,7 +3,7 @@ import { IsDateString, IsNumber, IsString } from 'class-validator';
 
 export class CreateDepositDto {
   @IsString()
-  title: string;
+  description: string;
 
   @IsNumber()
   @Transform((params) => parseInt(params.value))

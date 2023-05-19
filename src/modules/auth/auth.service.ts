@@ -19,7 +19,7 @@ import {
   USER_NOT_FOUND,
   WRONG_EMAIL_OR_PASSWORD,
 } from 'src/consts/error-messages'
-import { UploadService } from 'src/upload/upload.service'
+import { UploadService } from 'src/modules/upload/upload.service'
 import { emailSubject } from 'src/consts/email-subject'
 import { getRandomCode } from 'src/utils/get-random-code'
 import { EmailService } from '../email/email.service'
