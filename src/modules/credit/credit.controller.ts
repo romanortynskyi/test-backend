@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -23,6 +24,12 @@ import { UpdateCreditDto } from './dto/update-credit.dto';
 @Controller('credits')
 export class CreditController {
   constructor(private readonly creditService: CreditService) {}
+
+  @UseGuards(JwtGuard)
+  @Get()
+  getCredits(@Headers('Authorization') authorization: string) {
+    return this.creditService.getCredits(authorization)
+  }
 
   @Get(':id')
   async get(@Param('id', ParseIntPipe) id: number) {
@@ -65,7 +72,7 @@ export class CreditController {
     return await this.creditService.create(dto);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateCreditDto,

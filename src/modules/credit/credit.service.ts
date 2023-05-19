@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreditPaymentEntity } from 'src/entities/credit-payment.entity';
 import { CreditEntity } from 'src/entities/credit.entity';
@@ -10,6 +10,7 @@ import { CreateCreditPaymentDto } from './dto/create-credit-payment.dto';
 import { CreateCreditDto } from './dto/create-credit.dto';
 import { QueryCreditPayment } from './dto/query-credit-payment.dto';
 import { UpdateCreditDto } from './dto/update-credit.dto';
+import { CREDIT_NOT_FOUND } from 'src/consts/error-messages';
 
 @Injectable()
 export class CreditService {
@@ -21,6 +22,16 @@ export class CreditService {
 
     private readonly authService: AuthService,
   ) {}
+
+  async getCredits(bearerToken) {
+    const { id: userId } = await this.authService.getUserByToken(bearerToken)
+
+    const credits = await this.creditRepository.findBy({
+      userId,
+    })
+
+    return credits
+  }
 
   async get(id: number) {
     return this.creditRepository.findOne({ where: { id } });
@@ -61,7 +72,18 @@ export class CreditService {
   }
 
   async update(id: number, dto: UpdateCreditDto) {
-    return this.creditRepository.update(id, dto);
+    const credit = await this.creditRepository.findOneBy({
+      id
+    })
+
+    if (!credit) {
+      throw new NotFoundException(CREDIT_NOT_FOUND)
+    }
+
+    return this.creditRepository.save(id, {
+      ...dto,
+      ...credit,
+    });
   }
 
   async delete(id: number) {

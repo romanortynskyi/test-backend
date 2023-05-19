@@ -2,7 +2,7 @@ import { IsDateString, IsNumber, IsString } from 'class-validator';
 
 export class CreateCreditDto {
   @IsString()
-  title: string;
+  description: string;
 
   @IsNumber()
   totalAmountToPay: number;

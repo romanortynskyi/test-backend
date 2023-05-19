@@ -6,7 +6,7 @@ import { UserEntity } from './user.entity';
 @Entity('credit')
 export class CreditEntity extends BaseEntity {
   @Column({ type: String, nullable: false })
-  title: string;
+  description: string;
 
   @Column({ type: Number, nullable: false })
   totalAmountToPay: number;
