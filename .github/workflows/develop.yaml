@@ -30,26 +30,26 @@ jobs:
       - name : Lint
         run : npm run lint
 
-  migrate-db:
-    needs: ci
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install Dependencies
-        run: npm install
+  # migrate-db:
+  #   needs: ci
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [18.x]
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: Install Dependencies
+  #       run: npm install
 
-      - name: Migrate DB
-        run: npm run typeorm:run-migrations
-        env:
-            DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-            DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
-            DATABASE_USER: ${{ secrets.DATABASE_USER }}
-            DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-            DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+  #     - name: Migrate DB
+  #       run: npm run typeorm:run-migrations
+  #       env:
+  #           DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+  #           DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+  #           DATABASE_USER: ${{ secrets.DATABASE_USER }}
+  #           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+  #           DATABASE_NAME: ${{ secrets.DATABASE_NAME }}

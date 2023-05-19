@@ -26,13 +26,13 @@ export class DepositService {
   ) {}
 
   async getDeposits(bearerToken: string) {
-    const { id: userId } = await this.authService.getUserByToken(bearerToken)
+    const { id: userId } = await this.authService.getUserByToken(bearerToken);
 
     const deposits = await this.depositRepository.findBy({
-      userId
-    })
+      userId,
+    });
 
-    return deposits
+    return deposits;
   }
 
   async get(id: number) {

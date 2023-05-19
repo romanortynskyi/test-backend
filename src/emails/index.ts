@@ -1,4 +1,4 @@
-import { emailSubject } from 'src/consts/email-subject'
+import { emailSubject } from 'src/consts/email-subject';
 
 export const templateList = {
   [emailSubject.RESET_PASSWORD]: {
@@ -11,4 +11,4 @@ export const templateList = {
       template: 'ua/reset-password',
     },
   },
-}
+};

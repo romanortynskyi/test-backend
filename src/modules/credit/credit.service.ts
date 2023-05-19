@@ -24,13 +24,13 @@ export class CreditService {
   ) {}
 
   async getCredits(bearerToken) {
-    const { id: userId } = await this.authService.getUserByToken(bearerToken)
+    const { id: userId } = await this.authService.getUserByToken(bearerToken);
 
     const credits = await this.creditRepository.findBy({
       userId,
-    })
+    });
 
-    return credits
+    return credits;
   }
 
   async get(id: number) {
@@ -73,11 +73,11 @@ export class CreditService {
 
   async update(id: number, dto: UpdateCreditDto) {
     const credit = await this.creditRepository.findOneBy({
-      id
-    })
+      id,
+    });
 
     if (!credit) {
-      throw new NotFoundException(CREDIT_NOT_FOUND)
+      throw new NotFoundException(CREDIT_NOT_FOUND);
     }
 
     return this.creditRepository.save({
