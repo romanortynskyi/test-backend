@@ -5,11 +5,11 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  Patch,
   Post,
   Query,
   Headers,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { CreateIncomeDto } from './dto/create-income.dto';
 import { GetIncomeQuery } from './dto/get-income-query.dto';
@@ -31,7 +31,7 @@ export class IncomeController {
     return await this.incomeService.create(dto);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: CreateIncomeDto,
