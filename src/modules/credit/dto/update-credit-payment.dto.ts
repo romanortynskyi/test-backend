@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 import { CreateCreditPaymentDto } from './create-credit-payment.dto';
 
 export class UpdateCreditPaymentDto implements Partial<CreateCreditPaymentDto> {
@@ -9,7 +9,7 @@ export class UpdateCreditPaymentDto implements Partial<CreateCreditPaymentDto> {
   amount?: number;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   date?: Date;
 
   @IsOptional()
