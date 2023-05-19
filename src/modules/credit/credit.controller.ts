@@ -28,7 +28,7 @@ export class CreditController {
   @UseGuards(JwtGuard)
   @Get()
   getCredits(@Headers('Authorization') authorization: string) {
-    return this.creditService.getCredits(authorization)
+    return this.creditService.getCredits(authorization);
   }
 
   @Get(':id')

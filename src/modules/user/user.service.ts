@@ -1,11 +1,18 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { UserEntity } from 'src/entities/user.entity'
-import { EMAIL_ALREADY_EXISTS, USER_NOT_FOUND } from 'src/consts/error-messages'
-import { UpdateUserDto } from './dto/update-user.dto'
-import { UploadService } from 'src/modules/upload/upload.service'
+import { UserEntity } from 'src/entities/user.entity';
+import {
+  EMAIL_ALREADY_EXISTS,
+  USER_NOT_FOUND,
+} from 'src/consts/error-messages';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UploadService } from 'src/modules/upload/upload.service';
 
 @Injectable()
 export class UserService {
@@ -15,37 +22,34 @@ export class UserService {
     private readonly uploadService: UploadService,
   ) {}
 
-  async updateUser(id: number, dto: UpdateUserDto, imageFile: Express.Multer.File) {
-    const {
-      firstName,
-      lastName,
-      shouldDeleteImage,
-    } = dto
+  async updateUser(
+    id: number,
+    dto: UpdateUserDto,
+    imageFile: Express.Multer.File,
+  ) {
+    const { firstName, lastName, shouldDeleteImage } = dto;
 
     const user = await this.userRepository.findOneBy({
       id,
-    })
+    });
 
     if (!user) {
-      throw new NotFoundException(USER_NOT_FOUND)
+      throw new NotFoundException(USER_NOT_FOUND);
     }
 
     if (shouldDeleteImage && user.imgSrc) {
-      await this.uploadService.deleteFile(user.imgKey)
+      await this.uploadService.deleteFile(user.imgKey);
     }
 
-    const {
-      imgSrc,
-      imgKey,
-    } = user
+    const { imgSrc, imgKey } = user;
 
     let imageResult = {
       Location: imgSrc,
       Key: imgKey,
-    }
+    };
 
     if (imageFile) {
-      imageResult = await this.uploadService.uploadFile(imageFile, () => {})
+      imageResult = await this.uploadService.uploadFile(imageFile, () => {});
     }
 
     return this.userRepository.save({
@@ -54,30 +58,30 @@ export class UserService {
       lastName,
       imgSrc: imageResult.Location,
       imgKey: imageResult.Key,
-    })
+    });
   }
-  
+
   async userExistsByEmail(email: string): Promise<boolean> {
     const user = await this.userRepository.findOneBy({
       email,
-    })
+    });
 
     if (!user) {
-      return false
+      return false;
     }
 
-    throw new ConflictException(EMAIL_ALREADY_EXISTS)
+    throw new ConflictException(EMAIL_ALREADY_EXISTS);
   }
 
   async deleteUser(id: number) {
     const user = await this.userRepository.findOneBy({
-      id
-    })
+      id,
+    });
 
     if (!user) {
-      throw new NotFoundException(USER_NOT_FOUND)
+      throw new NotFoundException(USER_NOT_FOUND);
     }
 
-    await this.userRepository.delete(id)
+    await this.userRepository.delete(id);
   }
 }

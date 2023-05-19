@@ -1,37 +1,36 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
-import { createTransport } from 'nodemailer'
-import * as path from 'path'
-const EmailTemplates = require('email-templates')
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { createTransport } from 'nodemailer';
+import * as path from 'path';
+const EmailTemplates = require('email-templates');
 
-import { EMAIL_NOT_SENT, TEMPLATE_NOT_FOUND } from 'src/consts/error-messages'
-import { templateList } from 'src/emails'
+import { EMAIL_NOT_SENT, TEMPLATE_NOT_FOUND } from 'src/consts/error-messages';
+import { templateList } from 'src/emails';
 
 @Injectable()
 export class EmailService {
   constructor(private readonly configService: ConfigService) {}
 
   async sendEmail(options) {
-    const {
-      email,
-      subject,
-      language,
-      text,
-    } = options
+    const { email, subject, language, text } = options;
 
-    const templateToSend = templateList[subject][language]
+    const templateToSend = templateList[subject][language];
 
     if (!templateToSend) {
-      throw new NotFoundException(TEMPLATE_NOT_FOUND)
+      throw new NotFoundException(TEMPLATE_NOT_FOUND);
     }
-    
+
     const emailTemplates = new EmailTemplates({
       views: {
         root: path.resolve('src', 'emails'),
       },
-    })
+    });
 
-    const html = await emailTemplates.render(templateToSend.template, text)
+    const html = await emailTemplates.render(templateToSend.template, text);
 
     try {
       const transporter = createTransport({
@@ -45,23 +44,20 @@ export class EmailService {
         tls: {
           rejectUnauthorized: false,
         },
-      })
+      });
 
       const optionsToSend = {
         from: 'GeeksGoneWild',
         to: email,
         subject: templateToSend.subject,
         html,
-      }
-  
-      
-      await transporter.sendMail(optionsToSend)
-      transporter.close()
-    }
-    
-    catch (err) {
-      console.error(err)
-      throw new InternalServerErrorException(EMAIL_NOT_SENT)
+      };
+
+      await transporter.sendMail(optionsToSend);
+      transporter.close();
+    } catch (err) {
+      console.error(err);
+      throw new InternalServerErrorException(EMAIL_NOT_SENT);
     }
   }
 }

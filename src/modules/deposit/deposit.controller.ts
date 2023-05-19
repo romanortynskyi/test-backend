@@ -27,7 +27,7 @@ export class DepositController {
   @UseGuards(JwtGuard)
   @Get()
   getDeposits(@Headers('Authorization') authorization: string) {
-    return this.depositService.getDeposits(authorization)
+    return this.depositService.getDeposits(authorization);
   }
 
   @Get(':id')

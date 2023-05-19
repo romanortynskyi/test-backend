@@ -1,11 +1,11 @@
-import { getRandomIntInRange } from './get-random-int-in-range'
+import { getRandomIntInRange } from './get-random-int-in-range';
 
 export const getRandomCode = (length: number): string => {
-  const digits = []
+  const digits = [];
 
   for (let i = 0; i < length; i++) {
-    digits.push(getRandomIntInRange(0, 9))
+    digits.push(getRandomIntInRange(0, 9));
   }
 
-  return digits.join('')
-}
+  return digits.join('');
+};
