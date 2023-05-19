@@ -16,7 +16,6 @@ export class UpdateDepositDto
 
   @IsOptional()
   @IsDate()
-  @Transform((params) => parseInt(params.value))
   startDate?: Date;
 
   @IsOptional()
