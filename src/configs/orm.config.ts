@@ -26,7 +26,7 @@ export const ormOptions: TypeOrmModuleAsyncOptions = {
       CreditPaymentEntity,
       DepositPaymentEntity,
     ],
-    logging: false,
+    logging: true,
     synchronize: true,
   }),
 };
