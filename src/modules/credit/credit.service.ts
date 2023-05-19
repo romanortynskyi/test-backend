@@ -32,13 +32,13 @@ export class CreditService {
 
   async getPayments(id: number, query: QueryCreditPayment, auth: string) {
     const { page, perPage } = query;
-    const user = await this.authService.getUserByToken(auth);
+    // const user = await this.authService.getUserByToken(auth);
 
     return this.creditPaymentRepository
       .createQueryBuilder('payment')
-      .where('payment.userId = :userId', { userId: user.id })
-      .andWhere('payment.type = :type', { type: CashflowType.Expense })
-      .andWhere('payment.depositId = :creditId', { depositId: id })
+      .where('payment.userId = :userId', { userId: 2 })
+      .andWhere('payment.type = :type', { type: CashflowType.Credit })
+      .andWhere('payment.creditId = :creditId', { creditId: id })
       .skip(page * perPage)
       .limit(perPage)
       .getMany();

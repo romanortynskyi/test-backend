@@ -35,6 +35,7 @@ export class CreditController {
     return await this.creditService.createPayment(id, dto);
   }
 
+  // @UseGuards(JwtGuard)
   @Get(':id/payments')
   async getPayments(
     @Param('id') id: number,
