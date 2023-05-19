@@ -112,6 +112,8 @@ export class AuthService {
         'id',
         'firstName',
         'lastName',
+        'imgSrc',
+        'imgKey',
         'email',
         'password',
         'createdAt',
