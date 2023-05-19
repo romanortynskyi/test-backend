@@ -38,7 +38,7 @@ export class CreditService {
       .createQueryBuilder('payment')
       .where('payment.userId = :userId', { userId: user.id })
       .andWhere('payment.type = :type', { type: CashflowType.Expense })
-      .andWhere('payment.depositId = :depositId', { depositId: id })
+      .andWhere('payment.depositId = :creditId', { depositId: id })
       .skip(page * perPage)
       .limit(perPage)
       .getMany();
