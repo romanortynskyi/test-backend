@@ -48,6 +48,7 @@ export class ExpenseService {
       })
       .select('SUM(cashflow.amount)', 'sum')
       .getRawOne();
+
     const totalCount = await this.cashflowRepository.count({
       where: {
         type: CashflowType.Expense,
